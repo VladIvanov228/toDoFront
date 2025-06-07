@@ -1,0 +1,33 @@
+.todo-list {
+  &__filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  &__filter {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &--active {
+      border-color: #4caf50;
+      background-color: #e8f5e9;
+      color: #388e3c;
+      font-weight: 600;
+    }
+
+    &:hover:not(&--active) {
+      background-color: #e0e0e0;
+    }
+  }
+
+  &__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
