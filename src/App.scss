@@ -14,4 +14,26 @@
     font-weight: 700;
     font-size: 28px;
   }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  &__logout-btn {
+    padding: 6px 14px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #e53935;
+    background: #f44336;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #d32f2f;
+    }
+  }
 }

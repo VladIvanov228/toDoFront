@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import TodoForm from "./components/ToDoForm/ToDoForm.jsx";
 import TodoList from "./components/ToDoList/ToDoList.jsx";
+import Login from "./components/Login/Login.jsx";
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
+  const [filter, setFilter] = useState("all");
+  const [user, setUser] = useState(null); //пользователь не авторизован
 
   // Загрузка из localStorage
   useEffect(() => {
@@ -17,6 +20,24 @@ export default function App() {
     }
   }, []);
 
+  // Загрузка пользователя из localStorage при старте
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      setUser(savedUser);
+    }
+  }, []);
+
+   // Сохранение пользователя в localStorage, очистка при выходе
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", user);
+    } else {
+      localStorage.removeItem("user");
+      localStorage.removeItem("tasks");
+      setTasks([]);
+    }
+  }, [user]);
   // Сохранение в localStorage
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -50,11 +71,26 @@ export default function App() {
     );
   };
 
-  const [filter, setFilter] = useState("all");
+  const handleLogin = (username) => {
+    setUser(username);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+  };
+
+  if (!user) {
+    return <Login onLogin={handleLogin} />;
+  }
 
   return (
     <div className="todo-app">
-      <h1 className="todo-app__title">Список задач</h1>
+      <header className="todo-app__header">
+        <h1 className="todo-app__title">Список задач для {user}</h1>
+        <button className="todo-app__logout-btn" onClick={handleLogout}>
+          Выйти
+        </button>
+      </header>
       <TodoForm onAdd={addTask} />
       <TodoList
         tasks={tasks}
